@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cazadores de Mitos - QR #3A - Datos Reales</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400;500&display=swap');
+        
         :root {
             --team-color: #ff3366;
             --primary-bg: #1a1a2e;
@@ -19,6 +21,25 @@
             padding: 20px;
         }
         
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(255, 51, 102, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 107, 157, 0.08) 0%, transparent 50%);
+            animation: teamPulse 15s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes teamPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
         .header {
             text-align: center;
             padding: 25px;
@@ -26,6 +47,24 @@
             border: 2px solid var(--team-color);
             border-radius: 15px;
             margin-bottom: 30px;
+            box-shadow: 0 0 20px var(--team-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '🔍';
+            font-size: 4em;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            opacity: 0.1;
+            animation: iconPulse 3s infinite;
+        }
+        
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
         
         .header h1 {
@@ -33,6 +72,31 @@
             color: var(--team-color);
             font-size: 1.4em;
             margin-bottom: 15px;
+            text-shadow: 0 0 10px var(--team-color);
+        }
+        
+        .header p {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--text-primary);
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+        
+        .exclusive-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            color: var(--team-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-exclusive h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--team-color);
+            margin-bottom: 10px;
         }
         
         .exclusive-content {
