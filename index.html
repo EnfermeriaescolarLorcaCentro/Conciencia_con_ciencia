@@ -5,31 +5,303 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARGOS NEXT – Portal QR</title>
     <style>
-        body{font-family:Arial,Helvetica,sans-serif;background:#1a1a2e;color:#eee;margin:0;padding:40px;line-height:1.6}
-        h1{color:#66ccff;margin-bottom:1rem;font-size:2rem}
-        ul{list-style:none;padding:0}
-        li{margin:.6rem 0}
-        a{color:#00ff88;text-decoration:none;font-weight:bold}
-        a:hover{text-decoration:underline}
-        footer{margin-top:2rem;font-size:.9rem;color:#aaa}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #eee;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #66ccff;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(102, 204, 255, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 4px 8px rgba(102, 204, 255, 0.3); }
+            to { text-shadow: 0 4px 20px rgba(102, 204, 255, 0.6); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+
+        .missions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .mission-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .mission-card:hover::before {
+            left: 100%;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #66ccff;
+            box-shadow: 0 10px 25px rgba(102, 204, 255, 0.2);
+        }
+
+        .mission-link {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mission-link:hover {
+            color: #66ccff;
+        }
+
+        .mission-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .qr-indicator {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            color: #66ccff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .missions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animated background particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #66ccff;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
     </style>
 </head>
 <body>
-    <h1>ARGOS NEXT – Portal QR</h1>
-    <p>Selecciona una misión para abrir su micro‑web:</p>
-    <ul>
-        <li><a href="qr_html_pages.html">Social Skills Naturales (QR #1)</a></li>
-        <li><a href="qr2_cerebro_blindado.html">Cerebro Blindado (QR #2)</a></li>
-        <li><a href="qr3_reality_check.html">Reality Check (QR #3)</a></li>
-        <li><a href="Mision_destructor_fake_news.html">Cazadores de Mitos – QR #3A</a></li>
-        <li><a href="Mision_Analisis_de_datos.html">Detectores de Verdad – QR #3B</a></li>
-        <li><a href="Mision_alternativas_epicas.html">Leyendas Naturales – QR #3C</a></li>
-        <li><a href="qr4_ahorro_inteligente.html">Ahorro Inteligente (QR #4)</a></li>
-        <li><a href="qr5_corrected.html">Alternativas Épicas (QR #5)</a></li>
-    </ul>
-    <footer>
-        Generado automáticamente el 30&nbsp;de&nbsp;May&nbsp;de&nbsp;2025.<br>
-        ARGOS NEXT – Conciencia con Ciencia Live
-    </footer>
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 1.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 3.5s;"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>ARGOS NEXT</h1>
+            <p class="subtitle">Portal de Misiones Interactivas</p>
+            <p>Selecciona una misión para acceder a su experiencia inmersiva</p>
+        </div>
+
+        <div class="missions-grid">
+            <div class="mission-card">
+                <div class="mission-icon">🎮</div>
+                <a href="qr_html_pages.html" class="mission-link">
+                    Social Skills Naturales
+                    <span class="qr-indicator">QR #1</span>
+                </a>
+            </div>
+
+            <div class="mission-card">
+                <div class="mission-icon">🧠</div>
+                <a href="qr2_cerebro_blindado.html" class="mission-link">
+                    Cerebro Blindado
+                    <span class="qr-indicator">QR #2</span>
+                </a>
+            </div>
+
+            <div class="mission-card">
+                <div class="mission-icon">🔍</div>
+                <a href="qr3_reality_check.html" class="mission-link">
+                    Reality Check
+                    <span class="qr-indicator">QR #3</span>
+                </a>
+            </div>
+
+            <div class="mission-card">
+                <div class="mission-icon">🎯</div>
+                <a href="Mision_destructor_fake_news.html" class="mission-link">
+                    Cazadores de Mitos
+                    <span class="qr-indicator">QR #3A</span>
+                </a>
+            </div>
+
+            <div class="mission-card">
+                <div class="mission-icon">📊</div>
+                <a href="Mision_Analisis_de_datos.html" class="mission-link">
+                    Detectores de Verdad
+                    <span class="qr-indicator">QR #3B</span>
+                </a>
+            </div>
+
+            <div class="mission-card">
+                <div class="mission-icon">⭐</div>
+                <a href="Mision_alternativas_epicas.html" class="mission-link">
+                    Leyendas Naturales
+                    <span class="qr-indicator">QR #3C</span>
+                </a>
+            </div>
+
+            <div class="mission-card">
+                <div class="mission-icon">💰</div>
+                <a href="qr4_ahorro_inteligente.html" class="mission-link">
+                    Ahorro Inteligente
+                    <span class="qr-indicator">QR #4</span>
+                </a>
+            </div>
+
+            <div class="mission-card">
+                <div class="mission-icon">🚀</div>
+                <a href="qr5_corrected.html" class="mission-link">
+                    Alternativas Épicas
+                    <span class="qr-indicator">QR #5</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-logo">🔬 ARGOS NEXT</div>
+            <p>Taller Prevención Consumo de Alcohol 1º ESO</p>
+            <p>Desarrollado con ❤️ para la generación Z</p>
+            <p>#ConcienciaConCiencia #ModoLeyenda</p>
+        </div>
+    </div>
+
+    <script>
+        // Add subtle interactive effects
+        document.querySelectorAll('.mission-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Animate particles randomly
+        function animateParticles() {
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach(particle => {
+                const randomX = Math.random() * 100;
+                const randomDelay = Math.random() * 6;
+                particle.style.left = randomX + '%';
+                particle.style.animationDelay = randomDelay + 's';
+            });
+        }
+
+        setInterval(animateParticles, 10000);
+    </script>
 </body>
 </html>
